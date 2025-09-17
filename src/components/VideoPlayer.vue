@@ -1,9 +1,10 @@
 <template>
   <div>
-    <video ref="videoRef" controls width="640">
+    <video ref="videoRef">
       <source src="/sample.mp4" type="video/mp4" />
     </video>
-    <div>
+    <div class="controls">
+      <button @click="playFromOffset(13.5)">Play</button>
       <button @click="setSpeed(0.5)">0.5x</button>
       <button @click="setSpeed(0.75)">0.75x</button>
       <button @click="setSpeed(1)">1x</button>
@@ -14,6 +15,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 const videoRef = ref<HTMLVideoElement | null>(null)
+
+
+const playFromOffset = (offsetSeconds: number) => {
+  if (!videoRef.value) return
+  videoRef.value.currentTime = offsetSeconds
+  videoRef.value.play()
+}
 
 function setSpeed(rate: number) {
   if (videoRef.value) videoRef.value.playbackRate = rate
